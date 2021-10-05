@@ -13,8 +13,8 @@ function data = crc_bids_retrieve_data(BIDS, selection, subjects)
     if ~isfield(selection.(fields{i}),'query')
       continue;
     end
-    data.(fields{i}) = query_data(BIDS, selection.(fields{i}), ...
-                                  subjects, fields{i});
+    data.(fields{i}) = crc_bids_query_data(BIDS, selection.(fields{i}), ...
+                                           subjects, fields{i});
   end
 end
 
