@@ -43,3 +43,19 @@ Optional parameter `overwrite` set to true (default is false),
 will overwrite files if they already present.
 
 
+### `der_json = crc_bids_create_json(base_json, img_file, varargin)`
+
+Creates json structure based on `base_json` with fields modified
+by variables contained in `varargin`.
+
+Variables in `varargin` must be passed as optional parameters:
+```matlab
+crc_bids_create_json(base_json, img_file, `field1`, value1, ...
+                     `field2`, value2, ...);
+```
+
+The name of parameter is interpreted as name of field to add to
+json structure.
+If field name ends with `-add`, then corresponding value is added
+to existing field in json structure 
+(works only with cellarrays and chararrays).
