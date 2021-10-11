@@ -40,3 +40,4 @@ function DERIV = crc_bids_gen_dervative(BIDS, outDir, name, selection, subjects)
     DERIV = bids.layout(outDataset, false);
 
   end
+end
