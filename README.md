@@ -59,3 +59,7 @@ json structure.
 If field name ends with `-add`, then corresponding value is added
 to existing field in json structure 
 (works only with cellarrays and chararrays).
+
+### `[filename, pth] = crc_create_filename(p, file)`
+
+Saved function for managing names of bidsified files.
