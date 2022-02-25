@@ -1,5 +1,6 @@
 function crc_generate_log(log_path, name)
   % An utility for copying terminal output to log file
+  % Log file will be filled untill 'diary off;' is called.
   % 
   % Parameters:
   %   log_path: path to emplacements to log files

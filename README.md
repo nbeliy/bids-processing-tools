@@ -63,3 +63,8 @@ to existing field in json structure
 ### `[filename, pth] = crc_create_filename(p, file)`
 
 Saved function for managing names of bidsified files.
+
+### `crc_generate_log(log_path, name)`
+
+Create a log file wich will contain all output from Matlab terminal.
+Log file will be written untill command `diary off` is issued.
