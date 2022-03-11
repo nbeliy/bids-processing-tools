@@ -1,4 +1,16 @@
 function crc_compare_batch(ref_batch, test_batch)
+  %% Compares two matlab batches structures and prints discrepency
+  %% If one of the entry is path to file, will compare the basename
+  %% and original (before bidsification) names, if sidecar json
+  %% contains field `OriginalFile`
+  %%
+  %% Parameters:
+  %% -----------
+  %%  ref_batch: struct
+  %%    reference batch, loaded as structure
+  %%  test_batch: struct
+  %%    batch to test, loaded as structure
+
   compare_structure(inputname(1), ref_batch, test_batch)
 end
 

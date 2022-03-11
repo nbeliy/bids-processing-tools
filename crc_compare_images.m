@@ -1,4 +1,15 @@
 function res = crc_compare_images(ref_img, test_img)
+  %% Compare two nifti images and print out discrepancies
+  %% Compares dimentions, orientations, scaling and images
+  %% themselves, voxel-by-voxel
+  %%
+  %% Parameters:
+  %% -----------
+  %%  ref_img: char, or spm_vol
+  %%    reference image
+  %%  test_img: char, or spm_vol
+  %%    test image
+
   res = true;
 
   ref_vol = spm_vol(ref_img);

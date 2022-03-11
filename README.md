@@ -1,6 +1,8 @@
 A small collection of scripts that streamline work with bids-matlab datasets,
 and designed to work with parsed json configuration files
 
+## BIDS related functions
+
 ### `data = crc_bids_query_data(BIDS, images, sub, id)`
 
 Retrieves paths to files from `BIDS` dataset and satisfying
@@ -33,7 +35,7 @@ If Input dataset and output dataset have same path, do nothing and return a copy
 of input dataset
 
 
-### `merge_suffix(folder_path, varargin)`
+### `crc_bids_merge_suffix(folder_path, varargin)`
 
 Scan `folder_path` for bids-formatted files, and check for
 multiple suffixes. 
@@ -63,8 +65,31 @@ to existing field in json structure
 ### `[filename, pth] = crc_create_filename(p, file)`
 
 Saved function for managing names of bidsified files.
+Outdated, better use bids.File class from bids.matlab
+
+
+### `codeDir = crc_bids_make_code_dir(ds_path, procStep, conf_files)`
+
+Function creating code directory in bidsified dataset:
+`<ds_path>/code/<procStep>`, and files in `conf_files` into it.
+Usefull to automise saving configuration files for pipeline
+
+## General functions
 
 ### `crc_generate_log(log_path, name)`
 
 Create a log file wich will contain all output from Matlab terminal.
 Log file will be written untill command `diary off` is issued.
+
+### `crc_compare_batch(ref_batch, test_batch)`
+
+Compares two matlab batches structures and prints discrepency
+If one of the entry is path to file, will compare the basename
+and original (before bidsification) names, if sidecar json
+contains field `OriginalFile`
+
+### `res = crc_compare_images(ref_img, test_img)`
+
+Compare two nifti images and print out discrepancies
+Compares dimentions, orientations, scaling and images
+themselves, voxel-by-voxel
