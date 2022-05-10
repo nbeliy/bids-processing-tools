@@ -1,4 +1,4 @@
-function res = crc_compare_images(ref_img, test_img)
+function [res, nvoxels, reldiff] = crc_compare_images(ref_img, test_img)
   %% Compare two nifti images and print out discrepancies
   %% Compares dimentions, orientations, scaling and images
   %% themselves, voxel-by-voxel
@@ -11,6 +11,8 @@ function res = crc_compare_images(ref_img, test_img)
   %%    test image
 
   res = true;
+  nvoxels = 0;
+  reldiff = 0;
 
   ref_vol = spm_vol(ref_img);
   test_vol = spm_vol(test_img);
@@ -54,8 +56,12 @@ function res = crc_compare_images(ref_img, test_img)
     diff = abs(ref_vv - test_vv);
     nz = nnz(diff);
     [m, i] = max(diff(:));
-    warning('%d voxels are not same', nz);
-    warning('Maximum deviation is %g at %d, compared to %g', m, i, ref_vv(i));
     res = false;
+    nvoxels = nz;
+    reldiff = sum(diff(:)) / nz;
+    warning(['%d voxels are not same\n',...
+             'Average deviation is %g\n',...
+             'Maximum deviation is %g at %d, compared to %g'],...
+            nz, reldiff, m, i, ref_vv(i));
   end
 end
