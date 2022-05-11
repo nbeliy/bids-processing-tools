@@ -1,4 +1,4 @@
-function [res, nvoxels, reldiff] = crc_compare_images(ref_img, test_img)
+function [res, nvoxels, reldiff] = crc_compare_images(ref_img, test_img, diff_path)
   %% Compare two nifti images and print out discrepancies
   %% Compares dimentions, orientations, scaling and images
   %% themselves, voxel-by-voxel
@@ -9,6 +9,22 @@ function [res, nvoxels, reldiff] = crc_compare_images(ref_img, test_img)
   %%    reference image
   %%  test_img: char, or spm_vol
   %%    test image
+  %%  diff_path: char
+  %%    if defined, the difference between two images
+  %%    will be placed there
+  %% Returns:
+  %% --------
+  %%  res: bool
+  %%    true if both images are same, false otherwize
+  %%  nvoxels: int
+  %%    number of voxels that shows difference
+  %%  reldiff: float
+  %%    sum of deviations weited by number of deviating
+  %%    voxels
+
+  if ~exist('diff_path', 'var')
+    diff_path = '';
+  end
 
   res = true;
   nvoxels = 0;
@@ -16,6 +32,8 @@ function [res, nvoxels, reldiff] = crc_compare_images(ref_img, test_img)
 
   ref_vol = spm_vol(ref_img);
   test_vol = spm_vol(test_img);
+  [~, ref_base, ~] = fileparts(ref_vol(1).fname);
+  [~, test_base, ~] = fileparts(test_vol(1).fname);
   fprintf('Comparing\n\t%s\n\t%s\n', ref_vol(1).fname, test_vol(1).fname);
 
   % check Number of volumes
@@ -53,12 +71,32 @@ function [res, nvoxels, reldiff] = crc_compare_images(ref_img, test_img)
 
 
   if ~isequaln(ref_vv, test_vv)
-    diff = abs(ref_vv - test_vv);
+    diff = ref_vv - test_vv;
+    nan_ind = find(isnan(diff));
+    for i = 1:size(nan_ind, 1)
+      ind = nan_ind(i);
+      ref_val = ref_vv(ind);
+      test_val = test_vv(ind);
+
+      if isnan(ref_val)
+        if isnan(test_val)
+          diff(ind) = 0;
+        else
+          diff(ind) = - test_val;
+        end
+      end
+    end
+    if ~isempty(diff_path)
+      ref_vol.fname = fullfile(diff_path, ['diff_', ref_base, '.nii']);
+      rmfield(ref_vol, 'pinfo');
+      spm_write_vol(ref_vol, diff);
+    end
+
     nz = nnz(diff);
-    [m, i] = max(diff(:));
+    [m, i] = max(abs(diff(:)));
     res = false;
     nvoxels = nz;
-    reldiff = sum(diff(:)) / nz;
+    reldiff = sum(abs(diff(:))) / nz;
     warning(['%d voxels are not same\n',...
              'Average deviation is %g\n',...
              'Maximum deviation is %g at %d, compared to %g'],...

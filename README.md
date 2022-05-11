@@ -88,8 +88,11 @@ If one of the entry is path to file, will compare the basename
 and original (before bidsification) names, if sidecar json
 contains field `OriginalFile`
 
-### `res = crc_compare_images(ref_img, test_img)`
+### `res = crc_compare_images(ref_img, test_img, diff_path)`
 
 Compare two nifti images and print out discrepancies
 Compares dimentions, orientations, scaling and images
-themselves, voxel-by-voxel
+themselves, voxel-by-voxel.
+
+If `diff_path` is defined, the difference image will
+be saved in given directory
