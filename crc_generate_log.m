@@ -24,8 +24,8 @@ function crc_generate_log(log_path, name)
   len = 30;
   char = '#';
   format_str = sprintf('%c %%-%ds%c\n', char, len - 3, char);
-  fprintf('%s\n', pad('', len, char));
+  fprintf('%s\n', repmat(char, 1, len));
   fprintf(format_str, name);
   fprintf(format_str, datestr(now(), 'dd/mm/YYYY - HH:MM:SS'));
-  fprintf('%s\n', pad('', len, char));
+  fprintf('%s\n', repmat(char, 1, len));
 end
