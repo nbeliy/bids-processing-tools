@@ -6,12 +6,6 @@ function V = crc_read_spm_vol(files)
 %% nii, a cellarray of paths to nii, or spm_vol structure
 %%
 %% In all cases function returns a structarray of spm_vol
-
-  if isstruct(files)
-    V = files;
-    return;
-  end
-
   V = spm_vol();
 
   if iscell(files)
