@@ -96,3 +96,15 @@ themselves, voxel-by-voxel.
 
 If `diff_path` is defined, the difference image will
 be saved in given directory
+
+### `V = crc_read_spm_vol(files)`
+
+Function facilitating the reading of multivolumes
+nii files.
+ 
+Input parameter `files` are either a single path to
+nii, a cellarray of paths to nii, or `spm_vol` structure.
+
+In all cases function returns a structarray of `spm_vol`,
+with each separate element of structure represent a separte
+volume.
